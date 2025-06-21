@@ -1,0 +1,3 @@
+rootProject.name = 'song-likes'
+
+include 'domain', 'batch', 'api'
