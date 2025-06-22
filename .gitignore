@@ -60,3 +60,5 @@ out/
 
 ### VS Code ###
 .vscode/
+
+dataloader/src/main/resources/data/*
