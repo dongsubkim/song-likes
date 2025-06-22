@@ -3,5 +3,5 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-webflux:3.5.3'
 
     // test
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.springframework.boot:spring-boot-starter-test:3.5.3")
 }
