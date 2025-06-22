@@ -5,7 +5,6 @@ import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
-import java.time.Duration;
 import java.time.LocalDate;
 
 @Getter
@@ -21,7 +20,7 @@ public class Song {
     private String artist;
     private String title;
     private String text;
-    private Duration length;
+    private String length;
     private String emotion;
     private String genre;
     private String album;
