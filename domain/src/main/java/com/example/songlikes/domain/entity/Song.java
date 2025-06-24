@@ -33,13 +33,13 @@ public class Song {
     private String timeSignature;
     private Boolean isExplicit;
     private Integer popularity;
-    private Integer Energy;
-    private Integer Danceability;
-    private Integer Positiveness;
-    private Integer Speechiness;
-    private Integer Liveness;
-    private Integer Acousticness;
-    private Integer Instrumentalness;
+    private Integer energy;
+    private Integer danceability;
+    private Integer positiveness;
+    private Integer speechiness;
+    private Integer liveness;
+    private Integer acousticness;
+    private Integer instrumentalness;
 
     // contextual tags. 추후 분리 가능성 있음
     private Boolean isGoodForParty;
