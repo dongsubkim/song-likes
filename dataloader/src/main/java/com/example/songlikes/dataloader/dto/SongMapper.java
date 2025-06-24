@@ -2,15 +2,12 @@ package com.example.songlikes.dataloader.dto;
 
 import com.example.songlikes.domain.entity.Song;
 
-import java.time.Duration;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
 public class SongMapper {
 
-    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     public static Song toEntity(SongJsonDto dto) {
         if (dto == null) return null;
@@ -24,7 +21,7 @@ public class SongMapper {
         builder.emotion(dto.emotion());
         builder.genre(dto.genre());
         builder.album(dto.album());
-        builder.releaseDate(parseLocalDate(dto.releaseDate()));
+        builder.releaseDate(LocalDate.parse(dto.releaseDate()));
         builder.key(dto.key());
         builder.tempo(dto.tempo());
         builder.loudness(dto.loudness());
@@ -32,13 +29,13 @@ public class SongMapper {
         builder.isExplicit(parseExplicit(dto.explicit()));
 
         builder.popularity(dto.popularity());
-        builder.Energy(dto.energy());
-        builder.Danceability(dto.danceability());
-        builder.Positiveness(dto.positiveness());
-        builder.Speechiness(dto.speechiness());
-        builder.Liveness(dto.liveness());
-        builder.Acousticness(dto.acousticness());
-        builder.Instrumentalness(dto.instrumentalness());
+        builder.energy(dto.energy());
+        builder.danceability(dto.danceability());
+        builder.positiveness(dto.positiveness());
+        builder.speechiness(dto.speechiness());
+        builder.liveness(dto.liveness());
+        builder.acousticness(dto.acousticness());
+        builder.instrumentalness(dto.instrumentalness());
 
         builder.isGoodForParty(toBoolean(dto.goodForParty()));
         builder.isGoodForWorkStudy(toBoolean(dto.goodForWorkStudy()));
@@ -92,29 +89,6 @@ public class SongMapper {
         }
 
         return builder.build();
-    }
-
-    private static Duration parseDuration(String length) {
-        if (length == null || length.isBlank()) return null;
-        // 형식 "mm:ss"
-        String[] parts = length.split(":");
-        if (parts.length != 2) return null;
-        try {
-            long minutes = Long.parseLong(parts[0].trim());
-            long seconds = Long.parseLong(parts[1].trim());
-            return Duration.ofMinutes(minutes).plusSeconds(seconds);
-        } catch (NumberFormatException e) {
-            return null;
-        }
-    }
-
-    private static LocalDate parseLocalDate(String dateStr) {
-        if (dateStr == null || dateStr.isBlank()) return null;
-        try {
-            return LocalDate.parse(dateStr, DATE_FORMATTER);
-        } catch (Exception e) {
-            return null;
-        }
     }
 
     private static Boolean parseExplicit(String explicit) {
