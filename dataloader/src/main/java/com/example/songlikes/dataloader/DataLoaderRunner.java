@@ -35,18 +35,39 @@ public class DataLoaderRunner implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         log.info("데이터 로딩 시작합니다.");
-        // 기본값 설정
+        // args[0] 에 파일 경로가 들어오면 해당 경로를 사용하고, 없으면 기본 경로를 사용
+        String dataPath = parseDataPath(args);
+        log.info("다음 파일에서부터 json 을 읽어옵니다: {}", dataPath);
+
+        // ClassPathResource 를 사용하여 리소스 파일을 읽어옴
+        Resource resource = getResource(dataPath);
+
+        // BufferedReader 를 사용하여 파일의 각 줄을 읽어옴
+        Flux<String> lines = getLinesFromResource(resource);
+
+        // 각 줄을 JSON으로 파싱하고, Song 엔티티로 변환하여 저장
+        saveSongs(lines);
+
+        // 모든 작업이 완료되면 애플리케이션 종료
+        exitApplication();
+    }
+
+    public String parseDataPath(String[] args) {
         String dataPath = "data/data.json";
 
         if (args != null && args.length > 0 && args[0] != null && !args[0].isBlank()) {
             dataPath = args[0];
         }
 
-        log.info("다음 파일에서부터 json 을 읽어옵니다: {}", dataPath);
+        return dataPath;  // 기본 경로
+    }
 
-        Resource resource = new ClassPathResource(dataPath);
+    public Resource getResource(String dataPath) {
+        return new ClassPathResource(dataPath);
+    }
 
-        Flux<String> lines = Flux.using(
+    public Flux<String> getLinesFromResource(Resource resource) {
+        return Flux.using(
             () -> new BufferedReader(new InputStreamReader(resource.getInputStream(), StandardCharsets.UTF_8)),
             br -> Flux.fromStream(br.lines()),
             br -> {
@@ -57,7 +78,9 @@ public class DataLoaderRunner implements CommandLineRunner {
                 }
             }
         );
+    }
 
+    public void saveSongs(Flux<String> lines) {
         lines
             .mapNotNull(line -> {
                 try {
@@ -73,8 +96,10 @@ public class DataLoaderRunner implements CommandLineRunner {
             .doOnNext(batch -> log.info("Song {}곡 저장 완료.", batch.size()))
             .doOnError(e -> log.error("Song 저장 중 에러 발생", e))
             .blockLast();
+    }
 
+    public void exitApplication() {
         log.info("데이터 로딩 완료. 애플리케이션 종료 중.");
-        System.exit(0);  // 실행 완료 후 종료
+        System.exit(0);
     }
 }
