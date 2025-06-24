@@ -1,9 +1,12 @@
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-r2dbc:3.5.3'
     implementation 'org.postgresql:r2dbc-postgresql:1.0.7.RELEASE'
+    implementation 'org.projectlombok:lombok:1.18.38'
+    compileOnly("org.projectlombok:lombok:1.18.38")
+    annotationProcessor("org.projectlombok:lombok:1.18.38")
 
     // test
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.springframework.boot:spring-boot-starter-test:3.5.3")
 }
 
 tasks.named('test') {
