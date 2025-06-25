@@ -44,6 +44,16 @@ public class SongLikeService {
                     return Mono.just(false);
                 }
             })
-            .as(transactionalOperator::transactional);
+            .as(transactionalOperator::transactional)
+            .doOnSuccess(transactional -> {
+                if (transactional) {
+                    log.info("노래 좋아요 수 증가 성공 songId: {}", songId);
+                } else {
+                    log.warn("노래 좋아요 수 증가 실패 songId: {}", songId);
+                }
+            })
+            .doOnError(error -> {
+                log.error("노래 좋아요 수 증가 중 오류 발생 songId: {}, error: {}", songId, error.getMessage());
+            });
     }
 }
