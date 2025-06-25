@@ -58,11 +58,11 @@ CREATE INDEX idx_songs_artist_year_inc_album
 ALTER TABLE songs
     ADD COLUMN like_count BIGINT DEFAULT 0;
 
-CREATE TABLE song_like_history
+CREATE TABLE song_like_histories
 (
     id       BIGSERIAL PRIMARY KEY,
     song_id  BIGINT,
     liked_at TIMESTAMP NOT NULL DEFAULT now()
 );
 
-CREATE INDEX idx_song_like_history_liked_at_song_id ON song_like_history (liked_at, song_id);
+CREATE INDEX idx_song_like_history_liked_at_song_id ON song_like_histories (liked_at, song_id);
