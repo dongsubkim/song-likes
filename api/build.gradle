@@ -1,7 +1,15 @@
 dependencies {
     implementation project(":domain")
+    implementation 'org.springframework.boot:spring-boot-starter-data-r2dbc:3.5.3'
     implementation 'org.springframework.boot:spring-boot-starter-webflux:3.5.3'
+    compileOnly "org.projectlombok:lombok:1.18.38"
+    annotationProcessor "org.projectlombok:lombok:1.18.38"
 
     // test
     testImplementation("org.springframework.boot:spring-boot-starter-test:3.5.3")
+    testImplementation 'io.projectreactor:reactor-test'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api'
+    testImplementation 'org.junit.jupiter:junit-jupiter-engine'
+    testImplementation 'org.mockito:mockito-core'
+    testImplementation 'org.mockito:mockito-junit-jupiter'
 }
