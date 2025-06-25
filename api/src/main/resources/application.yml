@@ -6,3 +6,8 @@ spring:
     url: r2dbc:postgresql://localhost:5432/songlikes
     username: user
     password: password
+
+logging:
+  level:
+    root: INFO
+    com.example.songlikes.domain.repository: DEBUG
