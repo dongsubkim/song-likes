@@ -10,8 +10,8 @@ import reactor.core.publisher.Flux;
 
 @Service
 @RequiredArgsConstructor
-public class SongSearchService {
-    private static final Logger log = LoggerFactory.getLogger(SongSearchService.class);
+public class AlbumCountService {
+    private static final Logger log = LoggerFactory.getLogger(AlbumCountService.class);
 
     private final SongRepository songRepository;
 

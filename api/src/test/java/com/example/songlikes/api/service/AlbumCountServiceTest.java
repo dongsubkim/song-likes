@@ -16,13 +16,13 @@ import java.util.List;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
-class SongSearchServiceTest {
+class AlbumCountServiceTest {
 
     @Mock
     SongRepository songRepository;
 
     @InjectMocks
-    SongSearchService songSearchService;
+    AlbumCountService albumCountService;
 
     @BeforeEach
     void setUp() {
@@ -46,7 +46,7 @@ class SongSearchServiceTest {
             .thenReturn(Flux.fromIterable(mockResult));
 
         // When
-        Flux<YearArtistAlbumCountDto> result = songSearchService
+        Flux<YearArtistAlbumCountDto> result = albumCountService
             .searchAlbumCountByReleaseYearAndArtist(releaseYear, artist, page, size);
 
         // Then
@@ -75,7 +75,7 @@ class SongSearchServiceTest {
             .thenReturn(Flux.fromIterable(mockResult));
 
         // When
-        Flux<YearArtistAlbumCountDto> result = songSearchService
+        Flux<YearArtistAlbumCountDto> result = albumCountService
             .searchAlbumCountByReleaseYearAndArtist(null, null, page, size);
 
         // Then
@@ -94,7 +94,7 @@ class SongSearchServiceTest {
             .thenReturn(Flux.empty());
 
         // When/Then
-        StepVerifier.create(songSearchService.searchAlbumCountByReleaseYearAndArtist(null, null, 0, 10))
+        StepVerifier.create(albumCountService.searchAlbumCountByReleaseYearAndArtist(null, null, 0, 10))
             .verifyComplete();
 
         verify(songRepository).findYearArtistAlbumCountGrouped(null, null, 0L, 10);
