@@ -17,6 +17,7 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+import static com.example.songlikes.dataloader.DataLoaderRunner.DEFAULT_DATA_PATH;
 import static org.mockito.Mockito.*;
 
 class DataLoaderRunnerTest {
@@ -49,7 +50,7 @@ class DataLoaderRunnerTest {
         // When
         String result = dataLoaderRunner.parseDataPath(args);
         // Then
-        assert result.equals("data/data.json");
+        assert result.equals(DEFAULT_DATA_PATH);
     }
 
     @Test
@@ -59,7 +60,7 @@ class DataLoaderRunnerTest {
         // When
         String result = dataLoaderRunner.parseDataPath(args);
         // Then
-        assert result.equals("data/data.json");
+        assert result.equals(DEFAULT_DATA_PATH);
     }
 
     @Test
@@ -69,7 +70,7 @@ class DataLoaderRunnerTest {
         // When
         String result = dataLoaderRunner.parseDataPath(args);
         // Then
-        assert result.equals("data/data.json");
+        assert result.equals(DEFAULT_DATA_PATH);
     }
 
     @Test
@@ -79,7 +80,7 @@ class DataLoaderRunnerTest {
         // When
         String result = dataLoaderRunner.parseDataPath(args);
         // Then
-        assert result.equals("data/data.json");
+        assert result.equals(DEFAULT_DATA_PATH);
     }
 
     @Test

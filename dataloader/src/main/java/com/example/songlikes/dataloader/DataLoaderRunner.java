@@ -26,6 +26,7 @@ public class DataLoaderRunner implements CommandLineRunner {
     private final ObjectMapper objectMapper;
 
     private static final int BATCH_SIZE = 500;
+    public static final String DEFAULT_DATA_PATH = "data/900k Definitive Spotify Dataset.json";
 
     public DataLoaderRunner(SongRepository songRepository, ObjectMapper objectMapper) {
         this.songRepository = songRepository;
@@ -53,7 +54,7 @@ public class DataLoaderRunner implements CommandLineRunner {
     }
 
     public String parseDataPath(String[] args) {
-        String dataPath = "data/data.json";
+        String dataPath = DEFAULT_DATA_PATH;
 
         if (args != null && args.length > 0 && args[0] != null && !args[0].isBlank()) {
             dataPath = args[0];

@@ -3,11 +3,12 @@ package com.example.songlikes.dataloader.dto;
 import com.example.songlikes.domain.entity.Song;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
 public class SongMapper {
-
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     public static Song toEntity(SongJsonDto dto) {
         if (dto == null) return null;
@@ -21,7 +22,7 @@ public class SongMapper {
         builder.emotion(dto.emotion());
         builder.genre(dto.genre());
         builder.album(dto.album());
-        builder.releaseDate(LocalDate.parse(dto.releaseDate()));
+        builder.releaseDate(parseLocalDate(dto.releaseDate()));
         builder.key(dto.key());
         builder.tempo(dto.tempo());
         builder.loudness(dto.loudness());
@@ -90,6 +91,16 @@ public class SongMapper {
 
         return builder.build();
     }
+
+    private static LocalDate parseLocalDate(String dateStr) {
+        if (dateStr == null || dateStr.isBlank()) return null;
+        try {
+            return LocalDate.parse(dateStr, DATE_FORMATTER);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
 
     private static Boolean parseExplicit(String explicit) {
         if (explicit == null) return null;
