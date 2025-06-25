@@ -18,7 +18,7 @@ import java.util.List;
 @SpringBootTest
 @Testcontainers
 @ActiveProfiles("test")
-public class SongRepositoryCustomIntegrationTest {
+public class SongRepositoryIntegrationTest {
 
     // region testcontainers 설정
     @Container
@@ -106,5 +106,36 @@ public class SongRepositoryCustomIntegrationTest {
         assert dto3.getReleaseYear() == 2021;
         assert dto3.getArtist().equals("IU");
         assert dto3.getAlbumCount() == 2;
+    }
+
+    @Test
+    void testIncreaseLikeCount() {
+        // Given
+        Song song = Song.builder()
+            .title("Test Song")
+            .artist("Test Artist")
+            .album("Test Album")
+            .releaseDate(LocalDate.of(2025, 1, 1))
+            .likeCount(100L)
+            .build();
+        Song savedSong = songRepository.save(song).block();
+
+        // When
+        boolean result = songRepository.increaseLikeCount(savedSong.getId()).block();
+
+        // Then
+        assert result;
+        Song updatedSong = songRepository.findById(savedSong.getId()).block();
+        assert updatedSong != null;
+        assert updatedSong.getLikeCount() == 101L;
+    }
+
+    @Test
+    void testIncreaseLikeCountNonExistentSong() {
+        // When
+        boolean result = songRepository.increaseLikeCount(999L).block();
+
+        // Then
+        assert !result;
     }
 }

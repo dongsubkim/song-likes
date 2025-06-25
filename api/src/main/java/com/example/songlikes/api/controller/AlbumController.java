@@ -25,7 +25,7 @@ public class AlbumController {
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "20") int size
     ) {
-        log.info("앪범 수 조회 API 요청. release year: {}, artist: {}, page: {}, size: {}", releaseYear, artist, page, size);
+        log.info("앨범 수 조회 API 요청. release year: {}, artist: {}, page: {}, size: {}", releaseYear, artist, page, size);
         return albumCountService.searchAlbumCountByReleaseYearAndArtist(releaseYear, artist, page, size);
     }
 }
