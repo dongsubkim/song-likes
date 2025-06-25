@@ -62,4 +62,7 @@ public class Song {
     private String similarArtist3;
     private String similarSong3;
     private Double similarityScore3;
+
+    // 좋아요 수
+    private Long likeCount;
 }

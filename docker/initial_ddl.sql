@@ -53,3 +53,16 @@ ALTER TABLE songs
 CREATE INDEX idx_songs_artist_year_inc_album
     ON songs (artist, release_year)
     INCLUDE (album);
+
+-- songs 테이블에 좋아요 수를 저장하는 컬럼을 추가합니다.
+ALTER TABLE songs
+    ADD COLUMN like_count BIGINT DEFAULT 0;
+
+CREATE TABLE song_like_history
+(
+    id       BIGSERIAL PRIMARY KEY,
+    song_id  BIGINT,
+    liked_at TIMESTAMP NOT NULL DEFAULT now()
+);
+
+CREATE INDEX idx_song_like_history_liked_at_song_id ON song_like_history (liked_at, song_id);
