@@ -1,5 +1,6 @@
 package com.example.songlikes.api.service;
 
+import com.example.songlikes.domain.dto.TopLikedSongDto;
 import com.example.songlikes.domain.entity.SongLikeHistory;
 import com.example.songlikes.domain.repository.SongLikeHistoryRepository;
 import com.example.songlikes.domain.repository.SongRepository;
@@ -8,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.reactive.TransactionalOperator;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
@@ -55,5 +57,11 @@ public class SongLikeService {
             .doOnError(error -> {
                 log.error("노래 좋아요 수 증가 중 오류 발생 songId: {}, error: {}", songId, error.getMessage());
             });
+    }
+
+    // 최근 1시간간 like 증가 top 10
+    public Flux<TopLikedSongDto> findTop10LikedSongInLastHour() {
+        log.info("최근 1시간동안 좋아요 증가 top 10 노래 조회");
+        return songLikeHistoryRepository.findTop10LikedSongInLastHour();
     }
 }

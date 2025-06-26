@@ -1,5 +1,6 @@
 package com.example.songlikes.api.service;
 
+import com.example.songlikes.domain.dto.TopLikedSongDto;
 import com.example.songlikes.domain.entity.SongLikeHistory;
 import com.example.songlikes.domain.repository.SongLikeHistoryRepository;
 import com.example.songlikes.domain.repository.SongRepository;
@@ -10,6 +11,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.transaction.reactive.TransactionalOperator;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
@@ -77,5 +79,30 @@ public class SongLikeServiceTest {
         verify(songRepository).increaseLikeCount(songId);
         // verify SongLikeHistoryRepository is not called
         verify(songLikeHistoryRepository, never()).save(any(SongLikeHistory.class));
+    }
+
+    @Test
+    void testFindTop10LikedSongInLastHour() {
+        // Given
+        when(songLikeHistoryRepository.findTop10LikedSongInLastHour()).thenReturn(Flux.just(
+            new TopLikedSongDto(10L, 10L),
+            new TopLikedSongDto(9L, 9L),
+            new TopLikedSongDto(8L, 8L),
+            new TopLikedSongDto(7L, 7L),
+            new TopLikedSongDto(6L, 6L),
+            new TopLikedSongDto(5L, 5L),
+            new TopLikedSongDto(4L, 4L),
+            new TopLikedSongDto(3L, 3L),
+            new TopLikedSongDto(2L, 2L),
+            new TopLikedSongDto(1L, 1L)
+        ));
+
+        // When
+        StepVerifier.create(songLikeService.findTop10LikedSongInLastHour())
+            .expectNextCount(10)
+            .verifyComplete();
+
+        // Then
+        verify(songLikeHistoryRepository).findTop10LikedSongInLastHour();
     }
 }
