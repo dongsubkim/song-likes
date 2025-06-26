@@ -29,13 +29,11 @@ public class SongRepositoryIntegrationTest {
 
     @DynamicPropertySource
     static void overrideProps(DynamicPropertyRegistry registry) {
-        // R2DBC는 r2dbc url을 별도로 써야 함!
         registry.add("spring.r2dbc.url",
             () -> "r2dbc:postgresql://" + postgres.getHost() + ":" + postgres.getFirstMappedPort() + "/testdb");
         registry.add("spring.r2dbc.username", postgres::getUsername);
         registry.add("spring.r2dbc.password", postgres::getPassword);
 
-        // JDBC URL도 flyway와 spring.sql.init용으로 써야 할 수 있음
         registry.add("spring.datasource.url", postgres::getJdbcUrl);
         registry.add("spring.datasource.username", postgres::getUsername);
         registry.add("spring.datasource.password", postgres::getPassword);
@@ -47,7 +45,6 @@ public class SongRepositoryIntegrationTest {
 
     @BeforeEach
     void clean() {
-        // 테스트 데이터 클린업 필요시 직접 처리
         songRepository.deleteAll().block();
     }
 
